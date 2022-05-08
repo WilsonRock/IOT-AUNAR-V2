@@ -13,7 +13,7 @@ export class LineChartComponent {
 
   
   lineChartData: ChartDataSets[] = [
-    { data: [85, 72, 78, 75, 77, 75], label: 'Crude oil prices' },
+    { data: [85, 72, 78, 75, 77, 75], label: 'Temperaturas' },
   ];
 
   lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June'];
