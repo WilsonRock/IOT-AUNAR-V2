@@ -6,13 +6,13 @@ import { SuperadminService } from '../services/superadmin.service';
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
-  styleUrls: ['./line-chart.component.css']
+  styleUrls: ['./line-chart.component.css'],
 })
 
 export class LineChartComponent {
   val = 15;
   lineChartData: ChartDataSets[] = [
-    { data: [85, 72, 78, 75, 77, 75], label: 'Temperaturas' },
+    { data: [85, 72, 78, 75, 77, 79], label: 'Temperaturas' },
   ];
   JustGage;
 
@@ -32,9 +32,6 @@ export class LineChartComponent {
   lineChartLegend = true;
   lineChartPlugins = [];
   lineChartType = 'line';
-
-
-
   constructor(private adminService: SuperadminService) {
     this.cargarData('https://api.thingspeak.com/channels/1693210/feeds.json?api_key=HYD2GM1961DCOWH7&results=10');
 
@@ -42,9 +39,6 @@ export class LineChartComponent {
 
 
   }
-
-
-
   public cargarData(Api1: any) {
     let res ;
     console.log("respuesta", Api1);
