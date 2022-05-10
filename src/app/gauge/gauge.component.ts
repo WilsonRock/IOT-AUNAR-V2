@@ -4,34 +4,26 @@ import { Color, Label } from 'ng2-charts';
 import { SuperadminService } from '../services/superadmin.service';
 
 @Component({
-  selector: 'app-line-chart',
-  templateUrl: './line-chart.component.html',
-  styleUrls: ['./line-chart.component.css'],
+  selector: 'app-gauge',
+  /* templateUrl: './line-chart.component.html', */
+  /* styleUrls: ['./line-chart.component.css'], */
+  template: `
+  <h2>  Gaugh Chart</h2>
+   <div *ngIf="gauge_ChartData"  id="gauge_chart" [chartData]="gauge_ChartData" [chartOptions]= "gauge_ChartOptions" chartType="Gauge" GoogleChart></div>
+   <h2>  Area Chart</h2>`
+
+
+
+
+
+
+
 })
 
-export class LineChartComponent {
+export class GaugeComponent {
+  gauge_ChartData:{};
+  res;
   val = 15;
-  lineChartData: ChartDataSets[] = [
-    { data: [85, 72, 78, 75, 77, 75], label: 'Temperaturas' },
-  ];
-  JustGage;
-
-  lineChartLabels: Label[] = ['January', 'February', 'March', 'April', 'May', 'June'];
-
-  lineChartOptions = {
-    responsive: true,
-  };
-
-  lineChartColors: Color[] = [
-    {
-      borderColor: 'black',
-      backgroundColor: 'rgba(255,255,0,0.28)',
-    },
-  ];
-
-  lineChartLegend = true;
-  lineChartPlugins = [];
-  lineChartType = 'line';
   constructor(private adminService: SuperadminService) {
     this.cargarData('https://api.thingspeak.com/channels/1693210/feeds.json?api_key=HYD2GM1961DCOWH7&results=10');
 
@@ -40,12 +32,12 @@ export class LineChartComponent {
 
   }
   public cargarData(Api1: any) {
-    let res ;
+
     console.log("respuesta", Api1);
     this.adminService.ioot().subscribe((respuesta: any) => {
       console.log(...(respuesta.feeds[0].field1));
       const gaugeElement = document.querySelector(".gauge");
-      res=(respuesta.feeds[0].field1/100);
+      this.res = (respuesta.feeds[0].field1 / 100);
       function setGaugeValue(gauge, value) {
         if (value < 0 || value > 1) {
           return;
@@ -57,26 +49,25 @@ export class LineChartComponent {
           value * 100
         )}C°`;
       }
-
-      setGaugeValue(gaugeElement, res);
+       
+      setGaugeValue(gaugeElement, this.res);
 
 
     })
 
-  }
-      public gauge_ChartData = [
-        ['Label', 'Value'],
-        ['Systolic', 10],
-        ['Diastolic', 80]];
-    public gauge_ChartOptions = {
-        width: 400, height: 120,
-        redFrom: 90, redTo: 100,
-        yellowFrom: 75, yellowTo: 90,
-        minorTicks: 5
-    };
 
+  }
+
+/*  public gauge_ChartData = [
+    ['Label', 'Value'],
+    ['Systolic', 10],
+    ['Diastolic', 80]];  */
+  public gauge_ChartOptions = {
+    width: 400, height: 120,
+    redFrom: 90, redTo: 100,
+    yellowFrom: 75, yellowTo: 90,
+    minorTicks: 5
+  };
 
 
 }
-
-

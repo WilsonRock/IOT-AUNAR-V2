@@ -12,7 +12,9 @@ import { BubbleChartComponent } from './bubble-chart/bubble-chart.component';
 
 import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
-
+import { GoogleChartsModule } from 'angular-google-charts';
+import { GoogleChart } from './line-chart/angular2-google-chart.directive';
+import { GaugeComponent } from './gauge/gauge.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,9 +23,12 @@ import { HttpClientModule } from '@angular/common/http';
     DoughnutChartComponent,
     RadarChartComponent,
     PieChartComponent,
-    BubbleChartComponent
+    BubbleChartComponent,
+    GoogleChart,
+    GaugeComponent,
   ],
   imports: [
+    GoogleChartsModule,
     BrowserModule,
     AppRoutingModule,
     ChartsModule,
