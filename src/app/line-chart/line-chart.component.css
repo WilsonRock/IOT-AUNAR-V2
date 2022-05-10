@@ -46,3 +46,12 @@
     padding-bottom: 25%;
     box-sizing: border-box;
   }
+
+  body {
+    background-color: grey
+}
+
+.container {
+    margin-top: 100px;
+    margin-left:200px;
+}
