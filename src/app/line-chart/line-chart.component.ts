@@ -10,9 +10,11 @@ import { SuperadminService } from '../services/superadmin.service';
 })
 
 export class LineChartComponent {
+  dataSource;
   val = 15;
+  check: boolean = false;
   lineChartData: ChartDataSets[] = [
-    { data: [85, 72, 78, 75, 77, 79], label: 'Temperaturas' },
+    /* { data: [85, 72, 78, 75, 77, 79], label: 'Temperaturas' }, */
   ];
   JustGage;
 
@@ -33,11 +35,17 @@ export class LineChartComponent {
   lineChartPlugins = [];
   lineChartType = 'line';
   constructor(private adminService: SuperadminService) {
+    
+    this.getTempSensor();
     this.cargarData('https://api.thingspeak.com/channels/1693210/feeds.json?api_key=HYD2GM1961DCOWH7&results=10');
 
 
+  }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
 
-
+    
   }
   public cargarData(Api1: any) {
     let res ;
@@ -55,7 +63,7 @@ export class LineChartComponent {
           }turn)`;
         gauge.querySelector(".gauge__cover").textContent = `${Math.round(
           value * 100
-        )}C°`;
+        )}%H`;
       }
 
       setGaugeValue(gaugeElement, res);
@@ -64,6 +72,28 @@ export class LineChartComponent {
     })
 
   }
+  getTempSensor() {
+    let temp=[];
+    this.adminService.ioot().subscribe((data: any) => {
+      this.dataSource = data.feeds;
+      data.feeds.forEach(element => {
+        temp.push(element.field2);
+      });
+      this.lineChartData = [
+        { data: temp, label: 'Temperaturas' },
+      ];
+      this.check = true;
+    })
+
+    setTimeout(() => {
+      this.check = true;
+      this.getTempSensor();
+      this.cargarData('https://api.thingspeak.com/channels/1693210/feeds.json?api_key=HYD2GM1961DCOWH7&results=10');
+      console.log("check", this.check);
+    }, 30000);
+
+  }
 
 
+ 
 }

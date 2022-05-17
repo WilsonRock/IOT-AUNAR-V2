@@ -11,7 +11,7 @@
 </div>
 
 
-<div class="chart-wrapper">
+<div *ngIf="check" class="chart-wrapper">
   <canvas
     baseChart
     [datasets]="lineChartData"
@@ -23,4 +23,52 @@
     [plugins]="lineChartPlugins"
   >
   </canvas>
+</div>
+<div style="margin-top: 10px;" >
+  <div class="table-wrapper">
+    <table class="text-center" style="width: 90%;">
+      <thead>
+        <tr>
+          <th class="sticky-top sticky-left" style="z-index: 2;">Fecha</th>
+          <th class="sticky-top sticky-left" style="z-index: 2;">Hora</th>
+          <th class="sticky-top">Registro</th>
+          <th class="sticky-top">Humedad</th>
+          <th class="sticky-top">Temperatura</th>
+     
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr *ngFor="let element of dataSource">
+          <td class="sticky-left">{{ element.created_at |  date: "dd/MM/yyyy"  }}</td>
+          <td class="sticky-left">{{ element.created_at | date: "shortTime"  }}</td>
+          <td class="sticky-left">{{ element.entry_id }}</td>
+          <td class="sticky-left">{{ element.field1}}</td>
+          <td class="sticky-left">{{ element.field2}}</td>
+        </tr>
+      </tbody>
+    </table>
+<!--     <span class="no-records" *ngIf="dataSource.length === 0">No se encontraron registros!</span> -->
+  </div>
+<!--   <div class="paginator" *ngIf="page_table">
+    <span class="mr-3">Registros por página</span>
+    <select class="select-paginator mr-3" (change)=getPage($event.target.value)>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="100">100</option>
+    </select>
+    <span class="mr-3">{{page_table.from}} — {{page_table.to}} de {{page_table.total}}</span>
+    <span class="material-icons"
+      [ngClass]="{'disabled-button': page_table.current_page == 1, 'actived-button': page_table.current_page !== 1}"
+      (click)="firstPage()">first_page</span>
+    <span class="material-icons"
+      [ngClass]="{'disabled-button': page_table.current_page == 1, 'actived-button': page_table.current_page !== 1}"
+      (click)="previousPage()">chevron_left</span>
+    <span class="material-icons"
+      [ngClass]="{'disabled-button': page_table.current_page == page_table.last_page, 'actived-button': page_table.current_page !== page_table.last_page}"
+      (click)="nextPage()">chevron_right</span>
+    <span class="material-icons"
+      [ngClass]="{'disabled-button': page_table.current_page == page_table.last_page, 'actived-button': page_table.current_page !== page_table.last_page}"
+      (click)="lastPage()">last_page</span> -->
+
 </div>
