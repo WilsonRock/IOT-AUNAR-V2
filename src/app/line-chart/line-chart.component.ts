@@ -36,7 +36,7 @@ export class LineChartComponent {
   lineChartType = 'line';
   constructor(private adminService: SuperadminService) {
     
-    this.getTempSensor();
+    this.getTempSensor('https://api.thingspeak.com/channels/1693210/feeds.json?api_key=HYD2GM1961DCOWH7&results=10');
     this.cargarData('https://api.thingspeak.com/channels/1693210/feeds.json?api_key=HYD2GM1961DCOWH7&results=10');
 
 
@@ -50,18 +50,18 @@ export class LineChartComponent {
   public cargarData(Api1: any) {
     let res ;
     console.log("respuesta", Api1);
-    this.adminService.ioot().subscribe((respuesta: any) => {
+    this.adminService.ioot(Api1).subscribe((respuesta: any) => {
       console.log(...(respuesta.feeds[0].field1));
       const gaugeElement = document.querySelector(".gauge");
-      res=(respuesta.feeds[0].field1/100);
+      res=(respuesta.feeds[9].field1/100);
       function setGaugeValue(gauge, value) {
         if (value < 0 || value > 1) {
           return;
         }
 
-        gauge.querySelector(".gauge__fill").style.transform = `rotate(${value / 2
+        gauge.querySelector(".gauge__fill1").style.transform = `rotate(${value / 2
           }turn)`;
-        gauge.querySelector(".gauge__cover").textContent = `${Math.round(
+        gauge.querySelector(".gauge__cover1").textContent = `${Math.round(
           value * 100
         )}%H`;
       }
@@ -72,9 +72,9 @@ export class LineChartComponent {
     })
 
   }
-  getTempSensor() {
+  getTempSensor(Api1) {
     let temp=[];
-    this.adminService.ioot().subscribe((data: any) => {
+    this.adminService.ioot(Api1).subscribe((data: any) => {
       this.dataSource = data.feeds;
       data.feeds.forEach(element => {
         temp.push(element.field2);
@@ -87,13 +87,13 @@ export class LineChartComponent {
 
     setTimeout(() => {
       this.check = true;
-      this.getTempSensor();
+      this.getTempSensor('https://api.thingspeak.com/channels/1693210/feeds.json?api_key=HYD2GM1961DCOWH7&results=10');
       this.cargarData('https://api.thingspeak.com/channels/1693210/feeds.json?api_key=HYD2GM1961DCOWH7&results=10');
       console.log("check", this.check);
     }, 30000);
 
   }
-
+  
 
  
 }

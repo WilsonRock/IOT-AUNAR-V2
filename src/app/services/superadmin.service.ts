@@ -8,8 +8,8 @@ import { Injectable } from "@angular/core";
 export class SuperadminService {
   constructor(private http: HttpClient) {}
 
-  public ioot() {
-    
-    return this.http.get('https://api.thingspeak.com/channels/1693210/feeds.json?api_key=HYD2GM1961DCOWH7&results=10');
+  public ioot(Api) {
+    console.log("Api", Api);
+    return this.http.get(Api);
   }
 }
