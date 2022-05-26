@@ -2,7 +2,7 @@ import { Component, } from '@angular/core';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import { SuperadminService } from '../services/superadmin.service';
-
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
@@ -34,7 +34,7 @@ export class LineChartComponent {
   lineChartLegend = true;
   lineChartPlugins = [];
   lineChartType = 'line';
-  constructor(private adminService: SuperadminService) {
+  constructor(private adminService: SuperadminService,private datePipe: DatePipe) {
     
     this.getTempSensor('https://api.thingspeak.com/channels/1693210/feeds.json?api_key=HYD2GM1961DCOWH7&results=10');
     this.cargarData('https://api.thingspeak.com/channels/1693210/feeds.json?api_key=HYD2GM1961DCOWH7&results=10');
@@ -74,15 +74,24 @@ export class LineChartComponent {
   }
   getTempSensor(Api1) {
     let temp=[];
+    let dates=[];
     this.adminService.ioot(Api1).subscribe((data: any) => {
       this.dataSource = data.feeds;
       data.feeds.forEach(element => {
         temp.push(element.field2);
       });
+/*       console.log("data", data);
       this.lineChartData = [
         { data: temp, label: 'Temperaturas' },
-      ];
+      ]; */
+      this.lineChartData = [{ data: data.feeds.map(item => item.field2), label: 'Temperaturas' }]
+      this.lineChartLabels  = data.feeds.map(item => item.created_at);
+ /*       let dataa=this.datePipe.transform(data.feeds.map(item => item.created_at), 'yyyy-dd-MM');
+      console.log("data", dataa); */
+/*     let gar =  this.datePipe.transform(data.feeds.map(item => item.created_at), 'yyyy-MM-dd')
+    console.log("data", gar); */
       this.check = true;
+      
     })
 
     setTimeout(() => {
@@ -93,6 +102,8 @@ export class LineChartComponent {
     }, 30000);
 
   }
+
+
   
 
  

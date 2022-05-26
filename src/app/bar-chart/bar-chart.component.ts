@@ -80,9 +80,16 @@ export class BarChartComponent {
       data.feeds.forEach(element => {
         temp.push(element.field2);
       });
+/*       console.log("data", data);
       this.lineChartData = [
         { data: temp, label: 'Temperaturas' },
-      ];
+      ]; */
+      this.lineChartData = [{ data: data.feeds.map(item => item.field2), label: 'Temperaturas' }]
+      this.lineChartLabels  = data.feeds.map(item => item.created_at);
+ /*       let dataa=this.datePipe.transform(data.feeds.map(item => item.created_at), 'yyyy-dd-MM');
+      console.log("data", dataa); */
+/*     let gar =  this.datePipe.transform(data.feeds.map(item => item.created_at), 'yyyy-MM-dd')
+    console.log("data", gar); */
       this.check = true;
     })
 

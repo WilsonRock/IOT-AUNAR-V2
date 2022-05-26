@@ -12,6 +12,7 @@ import { BubbleChartComponent } from './bubble-chart/bubble-chart.component';
 
 import { ChartsModule } from 'ng2-charts';
 import { HttpClientModule } from '@angular/common/http';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { HttpClientModule } from '@angular/common/http';
     ChartsModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
